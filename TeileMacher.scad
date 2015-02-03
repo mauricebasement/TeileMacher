@@ -1,9 +1,10 @@
 //Variables
 $fn=50;
-size	=	450;	//Grösse der Platte
+size	=450;	//Grösse der Platte
 profileDist = 200; //Abstand Profile von (0/0)
 connScrewDist = size/2 - 10; //Schraube Abstand
 tol = 0; //Squares Tolerance
+length = profileDist*2+20+10; //Länge der Seiten
 
 //Modules
 	//Platten
@@ -39,7 +40,6 @@ module platte4() {
 }
 	//Seiten
 module seite(rev=false) {
-	length = profileDist*2+20+10;
 	difference() {
 		square([110,length]);
 		if(rev==false)union() {
@@ -50,7 +50,7 @@ module seite(rev=false) {
 			squares(x=22,o=1);
 			translate([0,length-5])squares(x=22);
 		}
-		translate([27.5,25+27.5])motor(hole=true,screw_i=true,screw_d=23.5,screws=true,rod_hole=true);
+		translate([27.5,25+27.5])motor(hole=true,face=true,screw_d=23.5,screws=true);
 		translate([27.5,length-(25+27.5)])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
 		for(i=[25,length-30])translate([55,i])squares(x=11,o=1);
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
@@ -64,16 +64,23 @@ module middle_motor(rod=false,bearing) {
 		if(bearing==true)translate([27.5,27.5])circle(r=8);
 	}
 }
+module inside() {
+	rear(rod=true); //4
+	translate([55,length])rotate(a=[0,0,180])rear(); //4
+	translate([0,80])square([55,length-160]);
+
+}
+
+//Helper Modules
+module z_holes() {
+ ///////////////////////////////////////////////////////////////////////////////////////////
+}
 module rear(rod=false) {
 	difference() {
 		back();
 		translate([0,25])inv_rear(rod=rod);
 		for(i=[10,45])translate([i,15])circle(r=2.5);
 	}
-}
-//Helper Modules
-module z_holes() {
- ///////////////////////////////////////////////////////////////////////////////////////////
 }
 module back() {
 	difference() {
@@ -128,11 +135,10 @@ module mirror() {
 //Render
 seite(); //2
 seite(rev=true); //2
+inside(); //4
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
-rear(rod=true); //4
-rear(); //4
 
 platte1();
 platte2();
