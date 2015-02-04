@@ -80,6 +80,7 @@ module linear_middle(r=4.2) {
 module linear_side() {
 	difference() {
 		square([77,25],center=true);
+		translate([0,17.5])circle(r=4); // Other Rod
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
 		for(i=[-1,1])for(j=[14.5,35 ])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
 	}
