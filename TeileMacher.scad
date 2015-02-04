@@ -70,7 +70,20 @@ module inside() {
 	translate([0,80])square([55,length-160]);
 
 }
-
+module linear_middle(r=4.2) {
+	corners();	
+	difference() {
+		square(20,center=true);
+		circle(r=r,$fn=50);
+	}
+}
+module linear_side() {
+	difference() {
+		square([77,25],center=true);
+		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
+		for(i=[-1,1])for(j=[14.5,35 ])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+	}
+}
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +94,12 @@ module rear(rod=false) {
 		translate([0,25])inv_rear(rod=rod);
 		for(i=[10,45])translate([i,15])circle(r=2.5);
 	}
+}
+module corner() {
+	for(i=[-7.5,0,7.5])translate([i,0])square(5,center=true);
+}
+module corners() {
+	for(i=[1,3])rotate(a=[0,0,i*90])translate([0,12.5])corner();
 }
 module back() {
 	difference() {
@@ -139,11 +158,15 @@ inside(); //4
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
+linear_middle(); //?
+linear_middle(r=7.5); //?
+!linear_side();
 
-platte1();
-platte2();
-platte3();
-platte4();
+platte1(); //1
+platte2(); //1
+platte3(); //1
+platte4(); //1
+
 
 
 
