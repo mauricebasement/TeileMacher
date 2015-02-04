@@ -42,4 +42,4 @@ module t_slot1() {
 	translate([0,3.25])square([2.8,6.5],center=true);
 	translate([0,3.5])square([2.5+2.8,1.65],center=true);
 }
-!t_slot1();
+t_slot1();
