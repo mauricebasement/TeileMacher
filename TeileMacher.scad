@@ -51,7 +51,7 @@ module seite(rev=false) {
 			translate([0,length-5])squares(x=22);
 		}
 		translate([27.5,25+27.5])motor(hole=true,face=true,screw_d=23.5,screws=true);
-		translate([27.5,length-(25+27.5)])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
+		translate([27.5,length-(25+27.5)])rotate(a=[0,0,180])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
 		for(i=[25,length-30])translate([55,i])squares(x=11,o=1);
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
 	}
@@ -70,24 +70,45 @@ module inside() {
 	translate([0,80])square([55,length-160]);
 
 }
-module linear_middle(r=4.2) {
-	corners();	
+module linear_middle(r=4.2,hold=false) {
+	corners();
 	difference() {
-		square(20,center=true);
+		union() {
+			translate([0,17.5])square(20,center=true);
+			translate([-17,12.5])square([34,17]);
+		}	
+		translate([0,17.5])circle(r=4.4);
+		translate([0,26])circle(r=1.5);
+		for(i=[-1,1])translate([-12.5*i,16.5])circle(r=1.5);
+	}
+	difference() {
+square(20,center=true);
 		circle(r=r,$fn=50);
 	}
 }
 module linear_side() {
+	for(i=[0,1])mirror([i,0,0])translate([9,12.5])lead_hold();
+	translate([0,-17.5])difference() {
+		square([20,15],center=true);
+		circle(r=4);
+	}
 	difference() {
 		square([77,25],center=true);
 		translate([0,17.5])circle(r=4); // Other Rod
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
 		for(i=[-1,1])for(j=[14.5,35 ])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+		translate([0,17.5])circle(r=4);
 	}
 }
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
+}
+module lead_hold() {
+	difference() {
+		translate([5,0])square([12.5,10]);
+		translate([17.5,4])rotate(a=[0,0,90])t_slot();
+	}
 }
 module rear(rod=false) {
 	difference() {
@@ -147,7 +168,7 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 	if (rod_hole==true) translate([17.5,0])circle(r=4);
 }
-module mirror() {
+module mirror_plate() {
 	y=20.1;
 	color("red")translate([-100,-100])hull()for (x=[[y,y],[200-y,y],[200-y,200-y],[y,200-y]])translate(x)circle(r=20);
 }
@@ -161,6 +182,7 @@ middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
 linear_middle(); //?
 linear_middle(r=7.5); //?
+linear_middle(r=7.5,hold=true); //?
 !linear_side();
 
 platte1(); //1
