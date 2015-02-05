@@ -70,9 +70,9 @@ module inside() {
 	translate([0,80])square([55,length-160]);
 
 }
-module linear_middle(r=4.2,hold=false) {
+module linear_middle(r=4.2,hold=false,cut=false) {
 	corners();
-	difference() {
+	if(hold==true)difference() {
 		union() {
 			translate([0,17.5])square(20,center=true);
 			translate([-17,12.5])square([34,17]);
@@ -82,21 +82,30 @@ module linear_middle(r=4.2,hold=false) {
 		for(i=[-1,1])translate([-12.5*i,16.5])circle(r=1.5);
 	}
 	difference() {
-square(20,center=true);
+		square(20,center=true);
 		circle(r=r,$fn=50);
+		if(cut==true)translate([0,17.5])circle(r=12.5);
 	}
 }
-module linear_side() {
+module linear_side(two=false) {
 	for(i=[0,1])mirror([i,0,0])translate([9,12.5])lead_hold();
-	translate([0,-17.5])difference() {
-		square([20,15],center=true);
-		circle(r=4);
+	if (two==true) {	
+		for(i=[-1,1])translate([i*30,-17.5])difference() {
+			square([17,14],center=true);
+			circle(r=4);
+		}
+	}
+	if (two==false) {
+		translate([0,-17.5])difference() {
+			square([20,15],center=true);
+			circle(r=4);
+		}
 	}
 	difference() {
 		square([77,25],center=true);
 		translate([0,17.5])circle(r=4); // Other Rod
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
-		for(i=[-1,1])for(j=[14.5,35 ])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+		for(i=[-1,1])for(j=[14.5,35])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
 		translate([0,17.5])circle(r=4);
 	}
 }
@@ -180,10 +189,13 @@ inside(); //4
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
-linear_middle(); //?
-linear_middle(r=7.5); //?
-linear_middle(r=7.5,hold=true); //?
-!linear_side();
+linear_middle(); //4
+linear_middle(cut=true); //8
+linear_middle(r=7.5); //8
+linear_middle(r=7.5,hold=true); //8
+linear_side(); //4
+linear_side(two=true); //4
+
 
 platte1(); //1
 platte2(); //1
