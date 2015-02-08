@@ -90,7 +90,7 @@ module linear_middle(r=4.2,hold=false,cut=false) {
 module linear_side(two=false) {
 	for(i=[0,1])mirror([i,0,0])translate([9,12.5])lead_hold();
 	if (two==true) {	
-		for(i=[-1,1])translate([i*30,-17.5])difference() {
+		for(i=[-1,1])translate([i*25,-17.5])difference() {
 			square([17,14],center=true);
 			circle(r=4);
 		}
@@ -109,6 +109,19 @@ module linear_side(two=false) {
 		translate([0,17.5])circle(r=4);
 	}
 }
+module extruder_hold() {
+	difference() {
+		square(60);
+	}
+}
+module extruder_side() {
+	difference() {
+		square([72,22],center=true);
+		for(i=[-1,1])translate([i*25,0])circle(r=7.5);		
+		for(i=[0,1])mirror([i,0,0])for(i=[-8,8])for(j=[32.5,17])translate([j,i])circle(r=1.5);
+	}
+}
+!extruder_side();
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
