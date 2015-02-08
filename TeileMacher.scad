@@ -98,7 +98,7 @@ module linear_side(two=false) {
 	}
 	if (two==false) {
 		translate([0,-17.5])difference() {
-			square([20,15],center=true);
+			square([17,14],center=true);
 			circle(r=4);
 		}
 	}
@@ -223,7 +223,7 @@ linear_middle(); //4
 linear_middle(cut=true); //8
 linear_middle(r=7.5); //8
 linear_middle(r=7.5,hold=true); //8
-linear_side(); //4
+!linear_side(); //4
 linear_side(two=true); //4
 
 
