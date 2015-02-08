@@ -5,6 +5,7 @@ profileDist = 200; //Abstand Profile von (0/0)
 connScrewDist = size/2 - 10; //Schraube Abstand
 tol = 0; //Squares Tolerance
 length = profileDist*2+20+10; //Länge der Seiten
+wheelDist = 212.1; //Distanz zwischen Spiegelhalterrädern
 
 //Modules
 	//Platten
@@ -121,7 +122,23 @@ module extruder_side() {
 		for(i=[0,1])mirror([i,0,0])for(i=[-8,8])for(j=[32.5,17])translate([j,i])circle(r=1.5);
 	}
 }
-!extruder_side();
+module platform1() {
+	difference() {
+		square([225,200],center=true);
+		for(j=[-65,0,65])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=1.5);
+		
+	}
+}
+module platform2(ra=15.5/2) {
+	difference() {
+		square([225,200],center=true);
+		for(j=[-65,0,65])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])
+			hull(){
+				circle(r=ra);
+				translate([-20,0])square([1,ra*2],center=true);
+			}
+	}
+}
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
