@@ -74,11 +74,17 @@ module inside() {
 	translate([0,80])square([55,length-160]);
 
 }
-module linear_middle(r=4.2,hold=false,cut=false) {
+module linear_middle(r=4.2) {
 	corners();
-	if(hold==true)difference() {
+	difference() {
+		square(20,center=true);
+		circle(r=r,$fn=50);
+	}
+}
+module linear_middle_hold(r=4.2) {
+	difference() {
 		union() {
-			translate([0,17.5])square(20,center=true);
+			translate([0,17.5])square([34,15],center=true);
 			translate([-17,12.5])square([34,17]);
 		}	
 		translate([0,17.5])circle(r=4.4);
@@ -86,16 +92,17 @@ module linear_middle(r=4.2,hold=false,cut=false) {
 		for(i=[-1,1])translate([-12.5*i,16.5])circle(r=1.5);
 	}
 	difference() {
-		square(20,center=true);
+		square([34,25],center=true);
 		circle(r=r,$fn=50);
-		if(cut==true)translate([0,17.5])circle(r=12.5);
+		corners();
 	}
 }
 module linear_side(two=false) {
 	for(i=[0,1])mirror([i,0,0])translate([9,12.5])lead_hold();
+	for(i=[0,1])mirror([i,0,0])for(i=[-7.5,0,7.5])translate([29,i])square(5,center=true);
 	if (two==true) {	
-		for(i=[-1,1])translate([i*25,-17.5])difference() {
-			square([17,14],center=true);
+		for(i=[-1,1])translate([i*19,-17.5])difference() {
+			square([15,14],center=true);
 			circle(r=4);
 		}
 	}
@@ -106,10 +113,10 @@ module linear_side(two=false) {
 		}
 	}
 	difference() {
-		square([77,25],center=true);
+		square([53,25],center=true);
 		translate([0,17.5])circle(r=4); // Other Rod
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
-		for(i=[-1,1])for(j=[14.5,35])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+		for(i=[-1,1])for(j=[14.5])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
 		translate([0,17.5])circle(r=4);
 	}
 }
@@ -252,9 +259,8 @@ middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
 linear_middle(); //4
-linear_middle(cut=true); //8
-linear_middle(r=7.5); //8
-linear_middle(hold=true); //8
+linear_middle(r=7.5); //16
+linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
 platform1();
