@@ -7,7 +7,7 @@ tol = 0; //Squares Tolerance
 length = profileDist*2+20+10; //Länge der Seiten
 wheelDist = 212.1; //Distanz zwischen Spiegelhalterrädern
 wheelOffset = 60; //Abstand der Spiegelhalterräder 
-platformX = 222;
+platformX = 225;
 platformY = 200;
 
 //Modules
@@ -150,6 +150,7 @@ module platform2(ra=15.5/2) {
 	}
 }
 module rail() {
+	for(i=[-90,-100,-40,-30,30,40,90,100])translate([i-2.5,-12])square(5);
 	difference() {
 		translate([0,-5])square([platformX+40,20],center=true);
 		for(i=[0,-12])translate([-225/2,i])squares(x=220/5,o=0);
@@ -158,9 +159,12 @@ module rail() {
 }
 module rail_middle() {
 	difference() {
-		square([platformX+40,30],center=true);
+		union() {
+			square([platformX,30],center=true);
+			square([platformX+40,20],center=true);
+		}
 		rail_middle_squares();
-		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,8.5])t_slot();
+		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,3.5])t_slot();
 	}
 }
 module side_one() {
@@ -177,10 +181,8 @@ module platform_squares() {
 		for(i=[-45,-20,20,45])translate([-225/2,i-2.5])squares(x=215/5,o=1);		
 }
 module rail_middle_squares() {
-	difference() {
 		for(i=[10,-15])translate([-225/2,i])squares(x=220/5,o=0);
-		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,10])for(k=[2.5,-7.5])translate([k,0])square(5);
-	}
+		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i-2.5,10])square(5);
 }
 module lead_hold() {
 	difference() {
