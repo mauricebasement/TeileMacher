@@ -6,6 +6,9 @@ connScrewDist = size/2 - 10; //Schraube Abstand
 tol = 0; //Squares Tolerance
 length = profileDist*2+20+10; //Länge der Seiten
 wheelDist = 212.1; //Distanz zwischen Spiegelhalterrädern
+wheelOffset = 60; //Abstand der Spiegelhalterräder 
+platformX = 222;
+platformY = 200;
 
 //Modules
 	//Platten
@@ -124,24 +127,53 @@ module extruder_side() {
 }
 module platform1() {
 	difference() {
-		square([225,200],center=true);
-		for(j=[-65,0,65])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=1.5);
-		
+		square([platformX,platformY],center=true);
+		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=1.5);
 	}
 }
 module platform2(ra=15.5/2) {
 	difference() {
-		square([225,200],center=true);
-		for(j=[-65,0,65])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])
+		square([platformX,platformY],center=true);
+		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])
 			hull(){
 				circle(r=ra);
 				translate([-20,0])square([1,ra*2],center=true);
 			}
+		platform_squares();
 	}
+}
+module rail() {
+	difference() {
+		translate([0,-5])square([platformX+40,20],center=true);
+		for(i=[0,-12])translate([-225/2,i])squares(x=220/5,o=0);
+		for(i=[-95,-35,35,95])translate([i,-9.5])circle(r=1.5);
+	}
+}
+module rail_middle() {
+	difference() {
+		square([platformX+40,30],center=true);
+		rail_middle_squares();
+		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,8.5])t_slot();
+	}
+}
+module side_one() {
+
+}
+module side_two() {
+
 }
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
+}
+module platform_squares() {
+		for(i=[-45,-20,20,45])translate([-225/2,i-2.5])squares(x=215/5,o=1);		
+}
+module rail_middle_squares() {
+	difference() {
+		for(i=[10,-15])translate([-225/2,i])squares(x=220/5,o=0);
+		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,10])for(k=[2.5,-7.5])translate([k,0])square(5);
+	}
 }
 module lead_hold() {
 	difference() {
@@ -225,6 +257,13 @@ linear_middle(r=7.5); //8
 linear_middle(hold=true); //8
 linear_side(); //4
 linear_side(two=true); //4
+platform1();
+platform2();
+rail();
+rail_middle();
+side_one();
+side_two();
+
 
 
 platte1(); //1
