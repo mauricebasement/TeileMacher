@@ -152,7 +152,7 @@ module platform2(ra=15.5/2) {
 module rail() {
 	for(i=[-90,-100,-40,-30,30,40,90,100])translate([i-2.5,-12])square(5);
 	difference() {
-		translate([0,-5])square([platformX+40,20],center=true);
+		translate([0,-5])square([platformX+50,20],center=true);
 		for(i=[0,-12])translate([-225/2,i])squares(x=220/5,o=0);
 		for(i=[-95,-35,35,95])translate([i,-9.5])circle(r=1.5);
 	}
@@ -161,7 +161,7 @@ module rail_middle() {
 	difference() {
 		union() {
 			square([platformX,30],center=true);
-			square([platformX+40,20],center=true);
+			square([platformX+50,20],center=true);
 		}
 		rail_middle_squares();
 		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,3.5])t_slot();
@@ -266,7 +266,7 @@ linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
 platform1();
-platform2();
+!platform2();
 rail();
 rail_middle();
 side_one();
