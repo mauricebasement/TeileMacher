@@ -142,30 +142,9 @@ module platform2(ra=15.5/2) {
 	difference() {
 		square([platformX+60,platformY],center=true);
 		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])circle(r=ra);
-
-		platform_squares();
 		for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4.2);
 		translate([-platformX/2-15,0])circle(r=4.2);
 		translate([platformX/2+15,i])brass_cut();
-	}
-
-}
-module rail() {
-	for(i=[-90,-100,-40,-30,30,40,90,100])translate([i-2.5,-12])square(5);
-	difference() {
-		translate([0,-5])square([platformX+50,20],center=true);
-		for(i=[0,-12])translate([-225/2,i])squares(x=220/5,o=0);
-		for(i=[-95,-35,35,95])translate([i,-9.5])circle(r=1.5);
-	}
-}
-module rail_middle() {
-	difference() {
-		union() {
-			square([platformX,30],center=true);
-			square([platformX+50,20],center=true);
-		}
-		rail_middle_squares();
-		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i,3.5])t_slot();
 	}
 }
 module side_one() {
@@ -178,24 +157,9 @@ module side_two() {
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
 }
-module platform_top() {
-	difference() {
-		square([30,30],center=true);
-		circle(r=4.2);
-	}
-}
-module platform_top_cut() {
-	difference() {
-		square([40,30],center=true);
-		brass_cut();
-	}
-}
 module brass_cut() {
 	circle(r=5);
 	for(i=[0:3])rotate(a=[0,0,90*i])translate([8,0])circle(r=1.5);
-}
-module platform_squares() {
-		for(i=[-45,-20,20,45])translate([-225/2,i-2.5])squares(x=215/5,o=1);		
 }
 module rail_middle_squares() {
 		for(i=[10,-15])translate([-225/2,i])squares(x=220/5,o=0);
