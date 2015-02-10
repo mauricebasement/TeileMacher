@@ -266,7 +266,7 @@ linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
 platform1();
-!platform2();
+platform2();
 rail();
 rail_middle();
 side_one();
