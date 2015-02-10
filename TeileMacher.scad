@@ -181,7 +181,6 @@ module brass_cut() {
 	circle(r=5);
 	for(i=[0:3])rotate(a=[0,0,90*i])translate([8,0])circle(r=1.5);
 }
-!brass_cut();
 module platform_squares() {
 		for(i=[-45,-20,20,45])translate([-225/2,i-2.5])squares(x=215/5,o=1);		
 }
