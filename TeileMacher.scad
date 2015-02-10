@@ -120,11 +120,6 @@ module linear_side(two=false) {
 		translate([0,17.5])circle(r=4);
 	}
 }
-module extruder_hold() {
-	difference() {
-		square(60);
-	}
-}
 module extruder_side() {
 	difference() {
 		square([72,22],center=true);
@@ -135,7 +130,8 @@ module extruder_side() {
 module platform1() {
 	difference() {
 		square([platformX,platformY],center=true);
-		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=1.5);
+		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=2);
+		platform_holes();
 	}
 }
 module platform2(ra=15.5/2) {
@@ -145,21 +141,47 @@ module platform2(ra=15.5/2) {
 		for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])platform_cut();
 		translate([-platformX/2-15,0])platform_cut();
 		translate([platformX/2+15,i])brass_cut();
+		platform_holes();
 	}
 }
-module side_one() {
-
+module bearing_hold() {
+	difference(){
+		union() {
+			square([25,24],center=true);
+			for(j=[-14.5,14.5])for(i=[-10,10])translate([i,j])square(5,center=true);
+		}
+		for(j=[-12.5])translate([0,j])t_slot();
+		for(j=[12.5])translate([0,j])rotate(a=[0,0,180])t_slot();
+		for(j=[-5,5])for(i=[-10,10])translate([i,j])square(5,center=true);
+	}
 }
-module side_two() {
-
+module bearing_hold_middle() {
+	difference(){
+		union() {
+			square([25,20],center=true);
+			for(j=[-12.5,12.5])for(i=[-10,10])translate([i,j])square(5,center=true);
+		}
+		circle(r=7.5);
+	}
+}
+module bearing_hold_cover() {
+	difference(){
+		square([31,35],center=true);
+		platform_cut();
+	}
 }
 //Helper Modules
+module z_holes() {
+	for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4);
+	translate([-platformX/2-15,0])circle(r=4);
+}
+module platform_holes() {
+	for(i=[0:3])rotate(a=[0,0,90*i])translate([50,50])circle(r=1.5);
+}
 module platform_cut() {
 	circle(r=4.2);
-	for(j=[-12.5,12.5])for(i=[-10,0,10])translate([i,j])square(5,center=true);
-}
-module z_holes() {
- ///////////////////////////////////////////////////////////////////////////////////////////
+	for(j=[-12.5,12.5])for(i=[-10,10])translate([i,j])square(5,center=true);
+	for(j=[-12.5,12.5])translate([0,j])circle(r=1.5);
 }
 module brass_cut() {
 	circle(r=5);
@@ -250,10 +272,12 @@ linear_middle(r=7.5); //16
 linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
-platform1();
-!platform2();
-side_one();
-side_two();
+!platform1(); //1
+platform2(); //1
+bearing_hold(); //6
+bearing_hold_middle(); //6
+bearing_hold_cover(); //3
+
 
 
 
