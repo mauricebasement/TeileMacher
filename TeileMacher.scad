@@ -9,6 +9,7 @@ wheelDist = 212.1; //Distanz zwischen Spiegelhalterrädern
 wheelOffset = 60; //Abstand der Spiegelhalterräder 
 platformX = 225;
 platformY = 200;
+thight = 0.2; //Platform Bearing thightener
 
 //Modules
 	//Platten
@@ -120,7 +121,7 @@ module linear_side(two=false) {
 		translate([0,17.5])circle(r=4);
 	}
 }
-module extruder_side() {
+module extruder_side() { //Probably need update for rod distance
 	difference() {
 		square([72,22],center=true);
 		for(i=[-1,1])translate([i*25,0])circle(r=7.5);		
@@ -147,8 +148,8 @@ module platform2(ra=15.5/2) {
 module bearing_hold() {
 	difference(){
 		union() {
-			square([25,24],center=true);
-			for(j=[-14.5,14.5])for(i=[-10,10])translate([i,j])square(5,center=true);
+			square([25,24-thight],center=true);
+			for(j=[-14.5+thight/2,14.5-thight/2])for(i=[-10,10])translate([i,j])square(5,center=true);
 		}
 		for(j=[-12.5])translate([0,j])t_slot();
 		for(j=[12.5])translate([0,j])rotate(a=[0,0,180])t_slot();
@@ -272,9 +273,9 @@ linear_middle(r=7.5); //16
 linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
-!platform1(); //1
+platform1(); //1
 platform2(); //1
-bearing_hold(); //6
+!bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
 
