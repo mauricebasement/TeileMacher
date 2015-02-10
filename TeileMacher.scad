@@ -275,12 +275,9 @@ linear_side(); //4
 linear_side(two=true); //4
 platform1(); //1
 platform2(); //1
-!bearing_hold(); //6
+bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
-
-
-
 
 platte1(); //1
 platte2(); //1
