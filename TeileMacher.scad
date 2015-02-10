@@ -63,7 +63,7 @@ module seite(rev=false) {
 module middle_motor(rod=false,bearing) {
 	difference() {
 		square(55);
-		if(rod==false)translate([27.5,27.5])motor(face=true,screw_d=23.5,screws=true);
+		if(rod==false)translate([27.5,27.5])motor(screw_i=true,screw_d=23.5,screws=true,hole=true);
 		if(rod==true)translate([27.5,27.5])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
 		if(bearing==true)translate([27.5,27.5])circle(r=8);
 	}
@@ -260,7 +260,7 @@ module mirror_plate() {
 //Render
 seite(); //2
 seite(rev=true); //2
-inside(); //4
+!inside(); //4
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
