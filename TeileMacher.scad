@@ -140,14 +140,15 @@ module platform1() {
 }
 module platform2(ra=15.5/2) {
 	difference() {
-		square([platformX,platformY],center=true);
-		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])
-			hull(){
-				circle(r=ra);
-				translate([-20,0])square([1,ra*2],center=true);
-			}
+		square([platformX+60,platformY],center=true);
+		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])circle(r=ra);
+
 		platform_squares();
+		for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4.2);
+		translate([-platformX/2-15,0])circle(r=4.2);
+		translate([platformX/2+15,i])brass_cut();
 	}
+
 }
 module rail() {
 	for(i=[-90,-100,-40,-30,30,40,90,100])translate([i-2.5,-12])square(5);
@@ -176,6 +177,18 @@ module side_two() {
 //Helper Modules
 module z_holes() {
  ///////////////////////////////////////////////////////////////////////////////////////////
+}
+module platform_top() {
+	difference() {
+		square([30,30],center=true);
+		circle(r=4.2);
+	}
+}
+module platform_top_cut() {
+	difference() {
+		square([40,30],center=true);
+		brass_cut();
+	}
 }
 module brass_cut() {
 	circle(r=5);
@@ -260,7 +273,7 @@ module mirror_plate() {
 //Render
 seite(); //2
 seite(rev=true); //2
-!inside(); //4
+inside(); //4
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
@@ -270,7 +283,7 @@ linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
 platform1();
-platform2();
+!platform2();
 rail();
 rail_middle();
 side_one();
