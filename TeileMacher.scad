@@ -70,10 +70,13 @@ module middle_motor(rod=false,bearing) {
 	}
 }
 module inside() {
-	rear(rod=true); //4
-	translate([55,length])rotate(a=[0,0,180])rear(); //4
-	translate([0,80])square([55,length-160]);
-
+	difference() {
+		square([55,2*profileDist+30]);
+		for(j=[15,2*profileDist+30-15])for(i=[10,45])translate([i,j])circle(r=2.5);
+		translate([27.5,27.5+25])motor(hole=true,screw_i=true,screws=true,screw_d=23.5,rod_hole=true);
+		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true,screw_d=23-5,screws=true);
+		for(i=[0,2*profileDist+25])translate([0,i])squares(x=11);
+	}
 }
 module linear_middle(r=4.2) {
 	corners();
@@ -198,30 +201,11 @@ module lead_hold() {
 		translate([17.5,4])rotate(a=[0,0,90])t_slot();
 	}
 }
-module rear(rod=false) {
-	difference() {
-		back();
-		translate([0,25])inv_rear(rod=rod);
-		for(i=[10,45])translate([i,15])circle(r=2.5);
-	}
-}
 module corner() {
 	for(i=[-7.5,0,7.5])translate([i,0])square(5,center=true);
 }
 module corners() {
 	for(i=[1,3])rotate(a=[0,0,i*90])translate([0,12.5])corner();
-}
-module back() {
-	difference() {
-				square([55,55+25]);
-				squares(x=11);
-	}
-}
-module inv_rear(rod=false) {
-	difference() {
-		square(55);
-		middle_motor(rod=rod);
-	}
 }
 module squares(x,o=0) {
 	for(i=[0:2:x])translate([o*5+i*5-tol,0])square([5+2*tol,5]);
