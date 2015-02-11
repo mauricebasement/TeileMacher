@@ -256,7 +256,7 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 	if (rod_hole==true) translate([17.5,0])circle(r=4);
 }
-module mirror_plate() {
+module ikea_mirror() {
 	y=20.1;
 	color("red")translate([-100,-100])hull()for (x=[[y,y],[200-y,y],[200-y,200-y],[y,200-y]])translate(x)circle(r=20);
 }
