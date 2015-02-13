@@ -138,10 +138,10 @@ module platform1() {
 		platform_holes();
 	}
 }
-module platform2(ra=15.5/2) {
+module platform2(ra=16.5/2) {
 	difference() {
 		square([platformX+62,platformY+5],center=true);
-		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])circle(r=ra);
+		for(j=[-wheelOffset,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])circle(r=ra);
 		for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])platform_cut();
 		translate([-platformX/2-15,0])platform_cut();
 		translate([platformX/2+15,i])brass_cut();
@@ -267,7 +267,7 @@ linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
 platform1(); //1
-platform2(); //1
+!platform2(); //1
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
