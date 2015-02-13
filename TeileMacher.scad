@@ -144,7 +144,7 @@ module platform1() {
 		platform_holes();
 	}
 }
-module platform_base(h=60,b=40) {
+module platform_leg(h=60,b=40) {
 	difference() {
 		square([b,h]);
 		translate([b/2,0])t_slot();
@@ -279,9 +279,9 @@ linear_middle(r=7.5); //16
 linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
-!platform1(); //1
+platform1(); //1
 platform2(); //1
-platform_base(); //4
+platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
