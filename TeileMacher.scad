@@ -134,9 +134,22 @@ module extruder_side() { //Probably need update for rod distance
 module platform1() {
 	difference() {
 		square([platformX,platformY],center=true);
-		for(j=[-wheelOffset,0,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=2);
+		for(j=[-wheelOffset,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])circle(r=2);
+		for(i=[0:3])rotate(a=[0,0,90*i+45]) {
+			translate([0,63])for(j=[-17.5,17.5]) {
+				translate([j,0])square(5,center=true);	
+				circle(r=1.5);
+			}
+		}
 		platform_holes();
 	}
+}
+module platform_base(h=60,b=40) {
+	difference() {
+		square([b,h]);
+		translate([b/2,0])t_slot();
+	}
+	for(i=[0,35])translate([i,-5])square(5);
 }
 module platform2(ra=16.5/2) {
 	difference() {
@@ -266,8 +279,9 @@ linear_middle(r=7.5); //16
 linear_middle_hold(); //8
 linear_side(); //4
 linear_side(two=true); //4
-platform1(); //1
-!platform2(); //1
+!platform1(); //1
+platform2(); //1
+platform_base(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
