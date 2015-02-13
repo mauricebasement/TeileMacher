@@ -174,6 +174,12 @@ module bearing_hold_cover() {
 		platform_cut();
 	}
 }
+module spacer(r,d) {
+	difference() {
+		circle(r=r+d);
+		circle(r=r);
+	}
+}
 //Helper Modules
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4);
@@ -262,6 +268,7 @@ platform2(); //1
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
+for(j=[0:5])for(i=[0:4])translate([i*(4.1*2),j*(4.1*2)])spacer(r=2,d=2);
 
 platte1(); //1
 platte2(); //1
