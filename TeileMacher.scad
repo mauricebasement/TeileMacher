@@ -12,7 +12,6 @@ platformY = 200;
 thight = 0.2; //Platform Bearing thightener
 
 //Modules
-	//Platten
 module platte1() {
 	difference() {
 		base();
@@ -43,7 +42,6 @@ module platte4() {
 		profile_screws();
 	}
 }
-	//Seiten
 module seite(rev=false) {
 	difference() {
 		square([110,length]);
@@ -271,14 +269,18 @@ module ikea_mirror() {
 seite(); //2
 seite(rev=true); //2
 inside(); //4
+
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
+
+linear_side(); //4
+linear_side(two=true); //4
 linear_middle(); //4
 linear_middle(r=7.5); //16
 linear_middle_hold(); //8
-linear_side(); //4
-linear_side(two=true); //4
+
+
 platform1(); //1
 platform2(); //1
 platform_leg(); //4
