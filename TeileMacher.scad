@@ -185,19 +185,19 @@ module bearing_hold_cover() {
 		platform_cut();
 	}
 }
-module spacer(r,d) {
-	difference() {
-		circle(r=r+d);
-		circle(r=r);
-	}
-}
 module spacers() {
-	for(j=[0:3])for(i=[0:4])translate([i*(4.1*2),j*(4.1*2)])spacer(r=2,d=2);
+	for(j=[0:3])for(i=[0:4])translate([i*(4.1*2),j*(4.1*2)])spacer(r=2,d=2.5);
 }
 //Helper Modules
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4);
 	translate([-platformX/2-15,0])circle(r=4);
+}
+module spacer(r,d) {
+	difference() {
+		circle(r=r+d);
+		circle(r=r);
+	}
 }
 module platform_holes() {
 	for(i=[0:3])rotate(a=[0,0,90*i])translate([50,50])circle(r=1.5);
