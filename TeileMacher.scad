@@ -100,29 +100,17 @@ module linear_middle_hold(r=4.2) {
 	}
 }
 module linear_side(two=false) {
-	for(i=[0,1])mirror([i,0,0])translate([9,12.5])lead_hold();
 	for(i=[0,1])mirror([i,0,0])for(i=[-7.5,0,7.5])translate([29,i])square(5,center=true);
-	if (two==true) {	
-		for(i=[-1,1])translate([i*19,-17.5])difference() {
-			square([15,14],center=true);
-			circle(r=4);
-		}
-	}
-	if (two==false) {
-		translate([0,-17.5])difference() {
-			square([17,14],center=true);
-			circle(r=4);
-		}
-	}
 	difference() {
-		square([53,25],center=true);
-		translate([0,17.5])circle(r=4); // Other Rod
+		translate([0,12.5])square([53,50],center=true);
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
 		for(i=[-1,1])for(j=[14.5])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
-		translate([0,17.5])circle(r=4);
+		for(i=[0,1])mirror([i,0,0])translate([9,12.5])translate([17.5,4])rotate(a=[0,0,90])t_slot();
+		if (two==true)for(i=[-1,1])translate([i*19,30])circle(r=4);
+		if (two==false)translate([0,27.5])	circle(r=4);
 	}
 }
-module extruder_side() { //Probably need update for rod distance
+module extruder_side() { //Probably needs update for rod distance
 	difference() {
 		square([72,22],center=true);
 		for(i=[-1,1])translate([i*25,0])circle(r=7.5);		
@@ -215,12 +203,6 @@ module rail_middle_squares() {
 		for(i=[10,-15])translate([-225/2,i])squares(x=220/5,o=0);
 		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i-2.5,10])square(5);
 }
-module lead_hold() {
-	difference() {
-		translate([5,0])square([12.5,10]);
-		translate([17.5,4])rotate(a=[0,0,90])t_slot();
-	}
-}
 module corner() {
 	for(i=[-7.5,0,7.5])translate([i,0])square(5,center=true);
 }
@@ -274,7 +256,7 @@ middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
 
-linear_side(); //4
+!linear_side(); //4
 linear_side(two=true); //4
 linear_middle(); //4
 linear_middle(r=7.5); //16
