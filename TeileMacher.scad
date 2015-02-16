@@ -118,6 +118,13 @@ module linear_spacer() {
 	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*5])square(5,center=true);
 	square([20,15],center=true);
 }
+module z_spacer() {
+	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*7.5])square(5,center=true);
+	difference() {
+		square(20,center=true);
+		circle(r=4);
+	}
+}
 module extruder_side() { //Probably needs update for rod distance
 	difference() {
 		square([72,22],center=true);
@@ -188,6 +195,9 @@ module spacers() {
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4);
 	translate([-platformX/2-15,0])circle(r=4);
+}
+module z_spacer_cut() {
+	for(i=[-1,1])translate([i*7.5,2.5])square(5,center=true);
 }
 module spacer(r,d) {
 	difference() {
@@ -265,7 +275,7 @@ middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
 
 linear_side(); //4
-!linear_side(two=true); //4
+linear_side(two=true); //4
 linear_middle(); //4
 linear_middle(r=7.5); //16
 linear_middle_hold(); //8
@@ -278,6 +288,8 @@ platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
+z_spacer(); //6
+
 spacers(); //1
 
 platte1(); //1
