@@ -104,11 +104,19 @@ module linear_side(two=false) {
 	difference() {
 		translate([0,12.5])square([53,50],center=true);
 		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
-		for(i=[-1,1])for(j=[14.5])translate([i*j,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+		for(i=[-1,1]) {
+			translate([i*14.5,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+			translate([i*24,35])circle(r=1.35);
+			for(j=[-1,1])translate([i*10,j*5+30])square(5,center=true);	
+		}
 		for(i=[0,1])mirror([i,0,0])translate([9,12.5])translate([17.5,4])rotate(a=[0,0,90])t_slot();
 		if (two==true)for(i=[-1,1])translate([i*19,30])circle(r=4);
-		if (two==false)translate([0,27.5])	circle(r=4);
+		if (two==false)translate([0,30])	circle(r=4);
 	}
+}
+module linear_spacer() {
+	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*5])square(5,center=true);
+	square([20,15],center=true);
 }
 module extruder_side() { //Probably needs update for rod distance
 	difference() {
@@ -256,11 +264,12 @@ middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
 middle_motor(); //16
 
-!linear_side(); //4
-linear_side(two=true); //4
+linear_side(); //4
+!linear_side(two=true); //4
 linear_middle(); //4
 linear_middle(r=7.5); //16
 linear_middle_hold(); //8
+linear_spacer(); //8
 
 
 platform1(); //1
