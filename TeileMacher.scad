@@ -154,11 +154,11 @@ module platform_leg(h=60,b=40) {
 }
 module platform2(ra=16.5/2) {
 	difference() {
-		square([platformX+62,platformY+5],center=true);
+		square([435,platformY+5],center=true);
 		for(j=[-wheelOffset,wheelOffset])for(i=[-1,1])translate([i*wheelDist/2,j])rotate(a=[0,0,max(i,0)*180])circle(r=ra);
-		for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])platform_cut();
-		translate([-platformX/2-15,0])platform_cut();
-		translate([platformX/2+15,i])brass_cut();
+		for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])platform_cut();
+		translate([-profileDist,0])platform_cut();
+		translate([profileDist,i])brass_cut();
 		platform_holes();
 	}
 }
@@ -193,8 +193,8 @@ module spacers() {
 }
 //Helper Modules
 module z_holes() {
-	for(i=[platformY/2-15,-platformY/2+15])translate([platformX/2+15,i])circle(r=4);
-	translate([-platformX/2-15,0])circle(r=4);
+	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])circle(r=4);
+	translate([-profileDist,0])circle(r=4);
 }
 module z_spacer_cut() {
 	for(i=[-1,1])translate([i*7.5,2.5])square(5,center=true);
@@ -283,7 +283,7 @@ linear_spacer(); //8
 
 
 platform1(); //1
-platform2(); //1
+!platform2(); //1
 platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
