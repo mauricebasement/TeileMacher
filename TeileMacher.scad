@@ -319,9 +319,12 @@ module ikea_mirror() {
 }
 
 //Render
-!seite(); //2
+seite(z_rod_one=true); //1
+seite(z_rod_two=true); //1
 seite(rev=true); //2
-inside(); //4
+inside(); //2
+inside(z_rod_one=true); //1
+inside(z_rod_two=true); //1
 
 middle_motor(); //8
 middle_motor(bearing=true); //8
