@@ -11,6 +11,10 @@ platformX = 225;
 platformY = 200;
 thight = 0.2; //Platform Bearing thightener
 
+//Derived Variables
+zHoleA = (profileDist*2+30)/2+platformX/2-15;
+zHoleB = (profileDist*2+30)/2-platformX/2+15;
+
 //Modules
 module platte1() {
 	difference() {
@@ -65,15 +69,14 @@ module seite(rev=false) {
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
 	}
 }
-module middle_motor(rod=false,bearing) {
+module middle_motor(bearing) {
 	difference() {
 		square(55);
-		if(rod==false)translate([27.5,27.5])motor(screw_i=true,screw_d=23.5,screws=true,hole=true);
-		if(rod==true)translate([27.5,27.5])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
+		translate([27.5,27.5])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
 		if(bearing==true)translate([27.5,27.5])circle(r=8);
 	}
 }
-module inside() {
+module inside(z_rod_one=true,z_rod_two=true) {
 	difference() {
 		square([55,2*profileDist+30]);
 		for(j=[15,2*profileDist+30-15])for(i=[10,45])translate([i,j])circle(r=2.5);
@@ -81,6 +84,8 @@ module inside() {
 		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true,screw_d=23-5,screws=true);
 		for(i=[0,2*profileDist+25])translate([0,i])squares(x=11);
 		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
+		if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2])rotate(a=[0,0,90])z_spacer_cut();
+		if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j])rotate(a=[0,0,90])z_spacer_cut();
 	}
 }
 module z_motor_cover() {
@@ -308,9 +313,8 @@ seite(); //2
 seite(rev=true); //2
 !inside(); //4
 
-middle_motor(rod=true); //8
-middle_motor(rod=true,bearing=true); //8
-middle_motor(); //16
+middle_motor(); //8
+middle_motor(bearing=true); //8
 
 linear_side(); //4
 linear_side(two=true); //4
