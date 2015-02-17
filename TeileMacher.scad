@@ -12,8 +12,8 @@ platformY = 200;
 thight = 0.2; //Platform Bearing thightener
 
 //Derived Variables
-zHoleA = (profileDist*2+30)/2+platformX/2-15;
-zHoleB = (profileDist*2+30)/2-platformX/2+15;
+zHoleA = (profileDist*2+30)/2+platformX/2-15+2.5;
+zHoleB = (profileDist*2+30)/2-platformX/2+15+2.5;
 
 //Modules
 module platte1() {
@@ -52,7 +52,7 @@ module platte4() {
 		z_holes(); //temporary till exactly cut rods are ordered
 	}
 }
-module seite(rev=false) {
+module seite(rev=false,z_rod_one=false,z_rod_two=false) {
 	difference() {
 		square([110,length]);
 		if(rev==false)union() {
@@ -67,6 +67,7 @@ module seite(rev=false) {
 		translate([27.5,length-(25+27.5)])rotate(a=[0,0,180])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
 		for(i=[25,length-30])translate([55,i])squares(x=11,o=1);
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
+		z_rod(z_rod_one=z_rod_one,z_rod_two=z_rod_two);
 	}
 }
 module middle_motor(bearing) {
@@ -76,7 +77,7 @@ module middle_motor(bearing) {
 		if(bearing==true)translate([27.5,27.5])circle(r=8);
 	}
 }
-module inside(z_rod_one=true,z_rod_two=true) {
+module inside(z_rod_one=false,z_rod_two=false) {
 	difference() {
 		square([55,2*profileDist+30]);
 		for(j=[15,2*profileDist+30-15])for(i=[10,45])translate([i,j])circle(r=2.5);
@@ -84,8 +85,7 @@ module inside(z_rod_one=true,z_rod_two=true) {
 		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true,screw_d=23-5,screws=true);
 		for(i=[0,2*profileDist+25])translate([0,i])squares(x=11);
 		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
-		if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2])rotate(a=[0,0,90])z_spacer_cut();
-		if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j])rotate(a=[0,0,90])z_spacer_cut();
+		z_rod(z_rod_one=z_rod_one,z_rod_two=z_rod_two);
 	}
 }
 module z_motor_cover() {
@@ -223,6 +223,16 @@ module spacers() {
 }
 
 //Helper Modules
+module z_rod(z_rod_one,z_rod_two) {
+	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
+		rotate(a=[0,0,90])z_spacer_cut();
+		translate([-2.5,0])xy_holes(x=0,y=20,r=1.5);
+	}
+	if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j]){
+		rotate(a=[0,0,90])z_spacer_cut();
+		translate([-2.5,0])xy_holes(x=0,y=20,r=1.5);
+	}
+}
 module motor_spacer_cut() {
 	for(j=[-1,1])for(k=[0,10,20])translate([j*k+55/2,0])square(5,center=true);
 }
@@ -309,9 +319,9 @@ module ikea_mirror() {
 }
 
 //Render
-seite(); //2
+!seite(); //2
 seite(rev=true); //2
-!inside(); //4
+inside(); //4
 
 middle_motor(); //8
 middle_motor(bearing=true); //8
