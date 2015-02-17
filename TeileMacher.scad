@@ -17,6 +17,7 @@ module platte1() {
 		base();
 		conn_screws();
 		profile_screws();
+		translate([130,0])x_holes(x=23.5,r=1.5);
 	}
 }
 module platte2() {
@@ -41,6 +42,7 @@ module platte4() {
 		base();
 		conn_screws();
 		profile_screws();
+		z_holes(); //temporary till exactly cut rods are ordered
 	}
 }
 module seite(rev=false) {
@@ -319,7 +321,7 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-platte1(); //1
+!platte1(); //1
 platte2(); //1
 platte3(); //1
 platte4(); //1
