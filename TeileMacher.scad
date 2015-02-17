@@ -131,6 +131,10 @@ module linear_spacer() {
 	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*5])square(5,center=true);
 	square([20,15],center=true);
 }
+module motor_spacer() {
+	for(i=[-1,1])for(j=[-1,1])for(k=[0,10,20])translate([j*12.5,i*k])square(5,center=true);
+	square([20,55],center=true);
+}
 module z_spacer() {
 	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*7.5])square(5,center=true);
 	difference() {
@@ -211,7 +215,11 @@ module bearing_hold_cover() {
 module spacers() {
 	for(j=[0:3])for(i=[0:4])translate([i*(4.1*2),j*(4.1*2)])spacer(r=2,d=2.5);
 }
+
 //Helper Modules
+module motor_spacer_cut() {
+
+}
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])circle(r=4);
 	translate([-profileDist,0])circle(r=4);
@@ -297,7 +305,7 @@ module ikea_mirror() {
 //Render
 seite(); //2
 seite(rev=true); //2
-inside(); //4
+!inside(); //4
 
 middle_motor(rod=true); //8
 middle_motor(rod=true,bearing=true); //8
@@ -324,7 +332,7 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-!platte1(); //1
+platte1(); //1
 platte2(); //1
 platte3(); //1
 platte4(); //1
