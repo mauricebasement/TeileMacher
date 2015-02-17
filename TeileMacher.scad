@@ -80,6 +80,7 @@ module inside() {
 		translate([27.5,27.5+25])motor(hole=true,screw_i=true,screws=true,screw_d=23.5,rod_hole=true);
 		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true,screw_d=23-5,screws=true);
 		for(i=[0,2*profileDist+25])translate([0,i])squares(x=11);
+		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
 	}
 }
 module z_motor_cover() {
@@ -218,7 +219,7 @@ module spacers() {
 
 //Helper Modules
 module motor_spacer_cut() {
-
+	for(j=[-1,1])for(k=[0,10,20])translate([j*k+55/2,0])square(5,center=true);
 }
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])circle(r=4);
