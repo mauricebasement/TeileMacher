@@ -26,7 +26,10 @@ module platte2() {
 		conn_screws();
 		profile_cuts();
 		z_holes();
-		translate([130,0])motor(face=true,cable=true,screw_d=23.5,screw_e=true);
+		translate([130,0]) {
+			motor(face=true,cable=true,screw_d=23.5,screw_e=true);
+			z_motor_cut();
+		}
 	}
 }
 module platte3() {
