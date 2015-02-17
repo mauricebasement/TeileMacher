@@ -228,14 +228,18 @@ module extruder_carriage() {
 	difference() {
 		square([70,25],center=true);
 		for(i=[-1,1])translate([i*19,0])circle(r=8);
+		for(i=[-1,1])for(j=[-7.5,0,7.5])translate([i*5,j])square([8,5],center=true);
 	}
 }
-module extruder_middle(r) {
+module extruder_middle(r=8) {
+	for(i=[-1,1])translate([1+4,14.5*i])square([8,5],center=true);
 	difference() {
-		square([25,25])
+		translate([5,0])square([10,24],center=true);
+		circle(r=r);
+		for(i=[-1,1])translate([6.5,i*9.5])circle(r=1.5);
 	}
 }
-!extruder_carriage();
+!extruder_middle();
 //Helper Modules
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
