@@ -243,7 +243,16 @@ module extruder_middle(r=8) {
 		for(i=[-1,1])translate([6.5,i*9.5])circle(r=1.5);
 	}
 }
-!extruder_carriage();
+module extruder_rod_hold() {
+	difference() {
+		intersection() {
+			translate([10,-20])square([50,40]);
+			extruder_carriage();
+		}
+		translate([19,0])circle(r=7.5);
+	}
+}
+!extruder_rod_hold();
 //Helper Modules
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
