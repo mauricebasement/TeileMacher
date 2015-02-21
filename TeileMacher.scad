@@ -155,13 +155,6 @@ module z_motor_spacer(motorH=30,cable=false) {
 		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
 	}
 }
-module extruder_side() { //redundant??
-	difference() {
-		square([72,22],center=true);
-		for(i=[-1,1])translate([i*25,0])circle(r=7.5);		
-		for(i=[0,1])mirror([i,0,0])for(i=[-8,8])for(j=[32.5,17])translate([j,i])circle(r=1.5);
-	}
-}
 module platform1() {
 	difference() {
 		square([platformX,platformY],center=true);
