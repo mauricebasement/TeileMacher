@@ -148,7 +148,7 @@ module z_spacer() {
 		circle(r=4);
 	}
 }
-module z_motor_spacer(motorH=30,cable=false) {
+module z_motor_spacer(motorH=39,cable=false) {
 	for(i=[-1,1])for(j=[-1,1])translate([j*15,i*(motorH/2+2.5)])square(5,center=true);
 	difference() {
 		square([35,motorH],center=true);
