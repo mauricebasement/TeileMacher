@@ -383,6 +383,9 @@ z_motor_cover(); //1
 
 spacers(); //1
 
+extruder_carriage();
+extruder_middle();
+extruder_middle(r=6);
 extruder_rod_hold();
 
 platte1(); //1
