@@ -155,7 +155,7 @@ module z_motor_spacer(motorH=30,cable=false) {
 		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
 	}
 }
-module extruder_side() { //Probably needs update for rod distance
+module extruder_side() { //redundant??
 	difference() {
 		square([72,22],center=true);
 		for(i=[-1,1])translate([i*25,0])circle(r=7.5);		
@@ -233,7 +233,7 @@ module extruder_carriage() {
 				xy_holes(x=0,y=10,r=1.5);
 			}
 			translate([i*30,0])circle(r=1.5);
-			for(j=[-7.5,0,7.5])translate([i*5,j])square([8,5],center=true);
+			for(j=[-3.7/2-2.5,3.7/2+2.5])translate([i*5,j])square([8,5],center=true);
 			}
 		xy_holes(x=30,y=10,r=1.5);
 	}
@@ -383,7 +383,7 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-extruder_carriage();
+!extruder_carriage();
 extruder_middle();
 extruder_middle(r=6);
 extruder_rod_hold();
