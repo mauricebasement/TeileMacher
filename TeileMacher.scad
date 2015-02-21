@@ -224,18 +224,24 @@ module bearing_hold_cover() {
 module spacers() {
 	for(j=[0:3])for(i=[0:4])translate([i*(4.51*2),j*(4.51*2)])spacer(r=2,d=2.5);
 }
-module extruder_carriage() {
+module extruder_carriage(hold=false,c=3.8) {
 	difference() {
-		square([67,27],center=true);
+		union() {
+			square([67,27],center=true);
+			if(hold==true)translate([0,25])square([46,38],center=true);
+		}
 		for(i=[-1,1]) {
 			translate([i*19,0]){ 
 				circle(r=4.3);
 				xy_holes(x=0,y=10,r=1.5);
 			}
 			translate([i*30,0])circle(r=1.5);
-			for(j=[-3.7/2-2.5,3.7/2+2.5])translate([i*5,j])square([8,5],center=true);
+			translate([i*20,41])circle(r=1.5);
+			translate([i*20,20])circle(r=1.5);
+			for(j=[-c/2-2.5,c/2+2.5])translate([i*5,j])square([8,5],center=true);
 			}
 		xy_holes(x=30,y=10,r=1.5);
+		for(j=[0,9,20,29])for(i=[-7.5,0,7.5])translate([j-29/2,30+i])square(5,center=true);
 	}
 }
 module extruder_middle(r=8) {
@@ -255,7 +261,12 @@ module extruder_rod_hold() {
 		translate([19,0])circle(r=7.5);
 	}
 }
-
+module extruder_hold() {
+	intersection() {
+		extruder_carriage();
+		translate([0,25])square([46,38],center=true);
+	}
+}
 //Helper Modules
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
@@ -383,9 +394,10 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-!extruder_carriage();
-extruder_middle();
-extruder_middle(r=6);
+extruder_carriage();
+!extruder_carriage(hold=true);
+extruder_middle(r=7); //2
+extruder_middle(r=6); //2
 extruder_rod_hold();
 
 platte1(); //1
