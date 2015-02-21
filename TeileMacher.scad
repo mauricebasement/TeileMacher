@@ -396,7 +396,7 @@ spacers(); //1
 
 extruder_carriage(); //1
 extruder_carriage(hold=true); //2
-!extruder_hold(); //1
+extruder_hold(); //1
 extruder_middle(r=7); //2
 extruder_middle(r=6); //2
 extruder_rod_hold(); //4
