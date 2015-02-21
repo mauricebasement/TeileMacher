@@ -263,8 +263,8 @@ module extruder_rod_hold() {
 }
 module extruder_hold() {
 	intersection() {
-		extruder_carriage();
-		translate([0,25])square([46,38],center=true);
+		extruder_carriage(hold=true);
+		translate([0,35])square([46,38],center=true);
 	}
 }
 //Helper Modules
@@ -394,11 +394,12 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-extruder_carriage();
-!extruder_carriage(hold=true);
+extruder_carriage(); //1
+extruder_carriage(hold=true); //2
+!extruder_hold(); //1
 extruder_middle(r=7); //2
 extruder_middle(r=6); //2
-extruder_rod_hold();
+extruder_rod_hold(); //4
 
 platte1(); //1
 platte2(); //1
