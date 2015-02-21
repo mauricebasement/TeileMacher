@@ -177,10 +177,13 @@ module platform1() {
 }
 module platform_leg(h=60,b=40) {
 	difference() {
-		square([b,h]);
+		hull(){ 
+			square([b,h-b]);
+			translate([b/2,h-b/2])circle(r=b/2);
+		}
 		translate([b/2,0])t_slot();
 	}
-	for(i=[0,35])translate([i,-5])square(5);
+	for(i=[0,b-5])translate([i,-5])square(5);
 }
 module platform2(ra=16.5/2) {
 	difference() {
@@ -252,7 +255,7 @@ module extruder_rod_hold() {
 		translate([19,0])circle(r=7.5);
 	}
 }
-!extruder_rod_hold();
+
 //Helper Modules
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
@@ -376,9 +379,11 @@ bearing_hold_cover(); //3
 z_spacer(); //6
 z_motor_spacer();	 //3
 z_motor_spacer(cable=true);	 //1
-z_motor_cover(); //1
+!z_motor_cover(); //1
 
 spacers(); //1
+
+extruder_rod_hold();
 
 platte1(); //1
 platte2(); //1
