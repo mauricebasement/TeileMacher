@@ -222,7 +222,7 @@ module bearing_hold_cover() {
 	}
 }
 module spacers() {
-	for(j=[0:3])for(i=[0:4])translate([i*(4.1*2),j*(4.1*2)])spacer(r=2,d=2.5);
+	for(j=[0:3])for(i=[0:4])translate([i*(4.51*2),j*(4.51*2)])spacer(r=2,d=2.5);
 }
 module extruder_carriage() {
 	difference() {
@@ -379,7 +379,7 @@ bearing_hold_cover(); //3
 z_spacer(); //6
 z_motor_spacer();	 //3
 z_motor_spacer(cable=true);	 //1
-!z_motor_cover(); //1
+z_motor_cover(); //1
 
 spacers(); //1
 
