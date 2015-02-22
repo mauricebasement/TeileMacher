@@ -64,10 +64,11 @@ module seite(rev=false,z_rod_one=false,z_rod_two=false) {
 			translate([0,length-5])squares(x=22);
 		}
 		translate([27.5,25+27.5])motor(hole=true,face=true,screw_d=23.5,screws=true);
-		translate([27.5,length-(25+27.5)])rotate(a=[0,0,180])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
+		translate([27.5,length-(25+27.5)])rotate(a=[0,0,180])motor(rod=true,rodD=4.3*2,rod_hole=true);
 		for(i=[25,length-30])translate([55,i])squares(x=11,o=1);
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
 		z_rod(z_rod_one=z_rod_one,z_rod_two=z_rod_two);
+		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
 	}
 }
 module middle_motor(bearing) {
@@ -337,13 +338,13 @@ module t_slot() {
 	translate([0,3.25])square([2.8,6.5],center=true);
 	translate([0,3.5])square([2.5+2.8,1.65],center=true);
 }
-module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {	
+module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,rodD=16) {	
 	if (face==true) square(42.8,center=true);
 	if (cable==true) translate([21+5,0])square(12,center=true);
 	if (screw_e==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([26,26])circle(r=1.5);
 	if (screw_i==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([15.5,15.5])circle(r=1.5);
 	if (hole==true) circle(r=11);
-	if (rod==true) circle(r=8); //Maybe needs a little tolerance if bearing does not fit tight enough
+	if (rod==true) circle(r=rodD/2); //Maybe needs a little tolerance if bearing does not fit tight enough
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 	if (rod_hole==true) translate([17.5,0])circle(r=4);
 }
@@ -361,7 +362,7 @@ module ikea_mirror() {
 //Render
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
-seite(rev=true); //2
+!seite(rev=true); //2
 inside(); //2
 inside(z_rod_one=true); //1
 inside(z_rod_two=true); //1
@@ -389,7 +390,7 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-!extruder_carriage(); //1
+extruder_carriage(); //1
 extruder_carriage(hold=true); //2
 extruder_hold(); //1
 extruder_middle(r=7); //2
