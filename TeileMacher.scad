@@ -265,66 +265,42 @@ module extruder_hold() {
 }
 
 //Helper Modules
-module z_rod(z_rod_one,z_rod_two) {
-	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
-		rotate(a=[0,0,90])z_spacer_cut();
-		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
-	}
-	if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j]){
-		rotate(a=[0,0,90])z_spacer_cut();
-		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
-	}
+//0. General
+module profile() {
+	import("dxf/profile.dxf");
+	circle(r=2.5);
 }
-module motor_spacer_cut() {
-	for(j=[-1,1])for(k=[0,10,20])translate([j*k+55/2,0])square(5,center=true);
+module t_slot() {
+	translate([0,3.25])square([2.8,6.5],center=true);
+	translate([0,3.5])square([2.5+2.8,1.65],center=true);
+}
+module xy_holes(x,y,r) {
+	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])circle(r=r);
+}
+module x_holes(x,r) {
+	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,x])circle(r=r);
+}
+module squares(x,o=0) {
+	for(i=[0:2:x])translate([o*5+i*5-tol,0])square([5+2*tol,5]);
+}
+module ikea_mirror() {
+	y=20.1;
+	color("red")translate([-100,-100])hull()for (x=[[y,y],[200-y,y],[200-y,200-y],[y,200-y]])translate(x)circle(r=20);
+}
+//1. Platten
+module base() {
+	square(size,center=true);
 }
 module z_holes() {
 	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])circle(r=4);
 	translate([-profileDist,0])circle(r=4);
 }
-module z_spacer_cut() {
-	for(i=[-1,1])translate([i*7.5,2.5])square(5,center=true);
-}
 module z_motor_cut() {
 	for(j=[0:3])rotate(a=[0,0,90*j])for(i=[1,-1])for(i=[-1,1])translate([26,i*15])square(5,center=true);
-}
-module spacer(r,d) {
-	difference() {
-		circle(r=r+d);
-		circle(r=r);
-	}
-}
-module platform_holes() {
-	for(i=[0:3])rotate(a=[0,0,90*i])translate([50,50])circle(r=1.5);
-}
-module platform_cut() {
-	circle(r=4.2);
-	for(j=[-12.5,12.5])for(i=[-10,10])translate([i,j])square(5,center=true);
-	for(j=[-12.5,12.5])translate([0,j])circle(r=1.5);
 }
 module brass_cut() {
 	circle(r=5);
 	for(i=[0:3])rotate(a=[0,0,90*i])translate([8,0])circle(r=1.5);
-}
-module rail_middle_squares() {
-		for(i=[10,-15])translate([-225/2,i])squares(x=220/5,o=0);
-		for(j=[0,1])mirror([0,j,0])for(i=[-95,-35,35,95])translate([i-2.5,10])square(5);
-}
-module corner() {
-	for(i=[-7.5,0,7.5])translate([i,0])square(5,center=true);
-}
-module corners() {
-	for(i=[1,3])rotate(a=[0,0,i*90])translate([0,12.5])corner();
-}
-module squares(x,o=0) {
-	for(i=[0:2:x])translate([o*5+i*5-tol,0])square([5+2*tol,5]);
-}
-module base() {
-	square(size,center=true);
-}
-module profile() {
-	import("dxf/profile.dxf");
-	circle(r=2.5);
 }
 module profile_cuts() {
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([profileDist,profileDist])profile();
@@ -336,10 +312,7 @@ module conn_screws() {
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([connScrewDist,connScrewDist])circle(r=1.5);
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([connScrewDist,0])circle(r=1.5);
 }
-module t_slot() {
-	translate([0,3.25])square([2.8,6.5],center=true);
-	translate([0,3.5])square([2.5+2.8,1.65],center=true);
-}
+//2. Seiten
 module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,rodD=16) {	
 	if (face==true) square(42.8,center=true);
 	if (cable==true) translate([21+5,0])square(12,center=true);
@@ -350,17 +323,45 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,rodD=16
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 	if (rod_hole==true) translate([17.5,0])circle(r=4);
 }
-module xy_holes(x,y,r) {
-	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])circle(r=r);
+module z_spacer_cut() {
+	for(i=[-1,1])translate([i*7.5,2.5])square(5,center=true);
 }
-module x_holes(x,r) {
-	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,x])circle(r=r);
+module motor_spacer_cut() {
+	for(j=[-1,1])for(k=[0,10,20])translate([j*k+55/2,0])square(5,center=true);
 }
-module ikea_mirror() {
-	y=20.1;
-	color("red")translate([-100,-100])hull()for (x=[[y,y],[200-y,y],[200-y,200-y],[y,200-y]])translate(x)circle(r=20);
+//3. XY-Führung
+module corner() {
+	for(i=[-7.5,0,7.5])translate([i,0])square(5,center=true);
 }
-
+module corners() {
+	for(i=[1,3])rotate(a=[0,0,i*90])translate([0,12.5])corner();
+}
+//4. Platform
+module platform_holes() {
+	for(i=[0:3])rotate(a=[0,0,90*i])translate([50,50])circle(r=1.5);
+}
+module platform_cut() {
+	circle(r=4.2);
+	for(j=[-12.5,12.5])for(i=[-10,10])translate([i,j])square(5,center=true);
+	for(j=[-12.5,12.5])translate([0,j])circle(r=1.5);
+}
+module spacer(r,d) {
+	difference() {
+		circle(r=r+d);
+		circle(r=r);
+	}
+}
+//5. Extruder
+module z_rod(z_rod_one,z_rod_two) {
+	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
+		rotate(a=[0,0,90])z_spacer_cut();
+		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
+	}
+	if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j]){
+		rotate(a=[0,0,90])z_spacer_cut();
+		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
+	}
+}
 //Render
 //1. Platten
 !platte1(); //1
