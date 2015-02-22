@@ -69,6 +69,7 @@ module seite(rev=false,z_rod_one=false,z_rod_two=false) {
 		for(j=[15,length-15])for(i=[20,90])translate([i,j])circle(r=2.5);
 		z_rod(z_rod_one=z_rod_one,z_rod_two=z_rod_two);
 		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
+		for(i=[10,45])translate([i,2*profileDist+30-85])circle(r=1.5);
 	}
 }
 module middle_motor(bearing) {
@@ -83,10 +84,11 @@ module inside(z_rod_one=false,z_rod_two=false) {
 		square([55,2*profileDist+30]);
 		for(j=[15,2*profileDist+30-15])for(i=[10,45])translate([i,j])circle(r=2.5);
 		translate([27.5,27.5+25])motor(hole=true,screw_i=true,screws=true,screw_d=23.5,rod_hole=true);
-		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true,screw_d=23-5,screws=true);
+		translate([27.5,2*profileDist+30-27.5-25])motor(rod=true,rod_hole=true);
 		for(i=[0,2*profileDist+25])translate([0,i])squares(x=11);
 		for(i=[85,2*profileDist+30-80])translate([0,i])motor_spacer_cut();
 		z_rod(z_rod_one=z_rod_one,z_rod_two=z_rod_two);
+		for(i=[10,45])translate([i,2*profileDist+30-85])circle(r=1.5);
 	}
 }
 module z_motor_cover() {
@@ -362,8 +364,8 @@ module ikea_mirror() {
 //Render
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
-!seite(rev=true); //2
-inside(); //2
+seite(rev=true); //2
+!inside(); //2
 inside(z_rod_one=true); //1
 inside(z_rod_two=true); //1
 
