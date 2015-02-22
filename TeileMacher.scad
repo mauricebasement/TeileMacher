@@ -12,8 +12,8 @@ platformY = 200;
 thight = 0.2; //Platform Bearing thightener
 
 //Derived Variables
-zHoleA = (profileDist*2+30)/2+platformX/2-15+2.5;
-zHoleB = (profileDist*2+30)/2-platformX/2+15+2.5;
+zHoleA = (profileDist*2+30)/2+platformY/2-15;
+zHoleB = (profileDist*2+30)/2-platformY/2+15;
 
 //Modules
 module platte1() {
@@ -264,11 +264,11 @@ module extruder_hold() {
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
 		rotate(a=[0,0,90])z_spacer_cut();
-		translate([-2.5,0])xy_holes(x=0,y=20,r=1.5);
+		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
 	}
 	if(z_rod_two==true)for(j=[zHoleA,zHoleB])for(i=[10,50])translate([i,j]){
 		rotate(a=[0,0,90])z_spacer_cut();
-		translate([-2.5,0])xy_holes(x=0,y=20,r=1.5);
+		translate([-2.5,0])xy_holes(x=0,y=13,r=1.5);
 	}
 }
 module motor_spacer_cut() {
@@ -362,7 +362,7 @@ seite(z_rod_two=true); //1
 seite(rev=true); //2
 inside(); //2
 inside(z_rod_one=true); //1
-inside(z_rod_two=true); //1
+!inside(z_rod_two=true); //1
 
 middle_motor(); //8
 middle_motor(bearing=true); //8
