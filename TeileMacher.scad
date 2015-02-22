@@ -43,10 +43,10 @@ module z_motor_cover() {
 		motor(hole=true,screw_d=23.5,screw_e=true,screw_i=true);
 	}
 }
-module z_motor_spacer(motorH=39,cable=false) {
+module z_motor_spacer(motorH=39-5,cable=false) {
 	for(i=[-1,1])for(j=[-1,1])translate([j*15,i*(motorH/2+2.5)])square(5,center=true);
 	difference() {
-		square([35,motorH-5],center=true);
+		square([35,motorH],center=true);
 		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
 	}
 }
