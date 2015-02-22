@@ -17,6 +17,7 @@ zHoleA = (profileDist*2+30)/2+platformY/2-15;
 zHoleB = (profileDist*2+30)/2-platformY/2+15;
 
 //Modules
+//1. Platten
 module platte1() {
 	difference() {
 		base();
@@ -53,6 +54,21 @@ module platte4() {
 		z_holes(); //temporary till exactly cut rods are ordered
 	}
 }
+module z_motor_cover() {
+	difference() {
+		square(65,center=true);
+		z_motor_cut();
+		motor(hole=true,screw_d=23.5,screw_e=true,screw_i=true);
+	}
+}
+module z_motor_spacer(motorH=39,cable=false) {
+	for(i=[-1,1])for(j=[-1,1])translate([j*15,i*(motorH/2+2.5)])square(5,center=true);
+	difference() {
+		square([35,motorH],center=true);
+		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
+	}
+}
+//2. Seiten
 module seite(rev=false,z_rod_one=false,z_rod_two=false) {
 	difference() {
 		square([110,length]);
@@ -73,13 +89,6 @@ module seite(rev=false,z_rod_one=false,z_rod_two=false) {
 		for(i=[10,45])translate([i,2*profileDist+30-85])circle(r=1.5);
 	}
 }
-module middle_motor(bearing) {
-	difference() {
-		square(55);
-		translate([27.5,27.5])motor(rod=true,screw_d=23.5,screws=true,rod_hole=true);
-		if(bearing==true)translate([27.5,27.5])circle(r=8);
-	}
-}
 module inside(z_rod_one=false,z_rod_two=false) {
 	difference() {
 		square([55,2*profileDist+30]);
@@ -92,12 +101,36 @@ module inside(z_rod_one=false,z_rod_two=false) {
 		for(i=[10,45])translate([i,2*profileDist+30-85])circle(r=1.5);
 	}
 }
-module z_motor_cover() {
+module motor_spacer() {
+	for(i=[-1,1])for(j=[-1,1])for(k=[0,10,20])translate([j*(12.5-spacerTolerance),i*k])square(5,center=true);
+	square([20-spacerTolerance,55],center=true);
+}
+module z_spacer() {
+	for(i=[-1,1])for(j=[-1,1])translate([j*(12.5-spacerTolerance),i*7.5])square(5,center=true);
 	difference() {
-		square(65,center=true);
-		z_motor_cut();
-		motor(hole=true,screw_d=23.5,screw_e=true,screw_i=true);
+		square([20-spacerTolerance,20],center=true);
+		circle(r=4);
 	}
+}
+//3. XY-Führung
+module linear_side(two=false) {
+	for(i=[0,1])mirror([i,0,0])for(i=[-7.5,0,7.5])translate([29,i])square(5,center=true);
+	difference() {
+		translate([0,12.5])square([53,50],center=true);
+		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
+		for(i=[-1,1]) {
+			translate([i*14.5,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
+			translate([i*24,35])circle(r=1.35);
+			for(j=[-1,1])translate([i*10,j*5+30])square(5,center=true);	
+		}
+		for(i=[0,1])mirror([i,0,0])translate([9,12.5])translate([17.5,4])rotate(a=[0,0,90])t_slot();
+		if (two==true)for(i=[-1,1])translate([i*19,30])circle(r=4);
+		if (two==false)translate([0,30])	circle(r=4);
+	}
+}
+module linear_spacer() {
+	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*5])square(5,center=true);
+	square([20,15],center=true);
 }
 module linear_middle(r=4.2) {
 	corners();
@@ -122,43 +155,7 @@ module linear_middle_hold(r=4.2) {
 		corners();
 	}
 }
-module linear_side(two=false) {
-	for(i=[0,1])mirror([i,0,0])for(i=[-7.5,0,7.5])translate([29,i])square(5,center=true);
-	difference() {
-		translate([0,12.5])square([53,50],center=true);
-		for(i=[0,180])rotate(a=[0,0,i])for(i=[-7.5,0,7.5])translate([0,i])for(i=[0,9,20,29])translate([i,0])square(5,center=true);
-		for(i=[-1,1]) {
-			translate([i*14.5,0])for(i=[-1,1])translate([0,i*9])circle(r=1.5);
-			translate([i*24,35])circle(r=1.35);
-			for(j=[-1,1])translate([i*10,j*5+30])square(5,center=true);	
-		}
-		for(i=[0,1])mirror([i,0,0])translate([9,12.5])translate([17.5,4])rotate(a=[0,0,90])t_slot();
-		if (two==true)for(i=[-1,1])translate([i*19,30])circle(r=4);
-		if (two==false)translate([0,30])	circle(r=4);
-	}
-}
-module linear_spacer() {
-	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*5])square(5,center=true);
-	square([20,15],center=true);
-}
-module motor_spacer() {
-	for(i=[-1,1])for(j=[-1,1])for(k=[0,10,20])translate([j*12.5,i*k])square(5,center=true);
-	square([20-spacerTolerance,55],center=true);
-}
-module z_spacer() {
-	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*7.5])square(5,center=true);
-	difference() {
-		square([20-spacerTolerance,20],center=true);
-		circle(r=4);
-	}
-}
-module z_motor_spacer(motorH=39,cable=false) {
-	for(i=[-1,1])for(j=[-1,1])translate([j*15,i*(motorH/2+2.5)])square(5,center=true);
-	difference() {
-		square([35,motorH],center=true);
-		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
-	}
-}
+//4. Platform
 module platform1() {
 	difference() {
 		square([platformX,platformY],center=true);
@@ -172,16 +169,6 @@ module platform1() {
 		platform_holes();
 	}
 }
-module platform_leg(h=60,b=40) {
-	difference() {
-		hull(){ 
-			square([b,h-b]);
-			translate([b/2,h-b/2])circle(r=b/2);
-		}
-		translate([b/2,0])t_slot();
-	}
-	for(i=[0,b-5])translate([i,-5])square(5);
-}
 module platform2(ra=16.5/2) {
 	difference() {
 		square([435,platformY+5],center=true);
@@ -191,6 +178,16 @@ module platform2(ra=16.5/2) {
 		translate([130,i])brass_cut();
 		platform_holes();
 	}
+}
+module platform_leg(h=60,b=40) {
+	difference() {
+		hull(){ 
+			square([b,h-b]);
+			translate([b/2,h-b/2])circle(r=b/2);
+		}
+		translate([b/2,0])t_slot();
+	}
+	for(i=[0,b-5])translate([i,-5])square(5);
 }
 module bearing_hold() {
 	difference(){
@@ -221,6 +218,7 @@ module bearing_hold_cover() {
 module spacers() {
 	for(j=[0:3])for(i=[0:4])translate([i*(4.51*2),j*(4.51*2)])spacer(r=2,d=2.5);
 }
+//5. Extruder
 module extruder_carriage(hold=false,c=3.8,eX=67,eY=27) {
 	difference() {
 		union() {
@@ -265,6 +263,7 @@ module extruder_hold() {
 		translate([0,35])square([46,38],center=true);
 	}
 }
+
 //Helper Modules
 module z_rod(z_rod_one,z_rod_two) {
 	if(z_rod_one==true)for(i=[10,50])translate([i,(profileDist*2+30)/2]){
@@ -363,36 +362,43 @@ module ikea_mirror() {
 }
 
 //Render
+//1. Platten
+!platte1(); //1
+platte2(); //1
+platte3(); //1
+platte4(); //1
+z_motor_spacer();	 //3
+z_motor_spacer(cable=true);	 //1
+z_motor_cover(); //1
+
+//2. Seiten
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
 seite(rev=true); //2
 inside(); //2
 inside(z_rod_one=true); //1
 inside(z_rod_two=true); //1
+motor_spacer(); //8
+z_spacer(); //6
 
-middle_motor(); //8
-middle_motor(bearing=true); //8
-
+//3. XY-Führung
 linear_side(); //4
 linear_side(two=true); //4
-linear_middle(); //4
-linear_middle(r=7.5); //16
+linear_middle(); //6
+linear_middle(r=7.5); //18
 linear_middle_hold(); //8
 linear_spacer(); //8
 
+//4. Platform
 platform1(); //1
 platform2(); //1
 platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
-!z_spacer(); //6
-z_motor_spacer();	 //3
-z_motor_spacer(cable=true);	 //1
-z_motor_cover(); //1
-
 spacers(); //1
 
+//5. Extruder
 extruder_carriage(); //1
 extruder_carriage(hold=true); //2
 extruder_hold(); //1
@@ -400,10 +406,6 @@ extruder_middle(r=7); //2
 extruder_middle(r=6); //2
 extruder_bearing_hold(); //4
 
-platte1(); //1
-platte2(); //1
-platte3(); //1
-platte4(); //1
 
 
 
