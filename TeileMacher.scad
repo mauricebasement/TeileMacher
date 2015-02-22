@@ -217,13 +217,14 @@ module bearing_hold_cover() {
 module spacers() {
 	for(j=[0:3])for(i=[0:4])translate([i*(4.51*2),j*(4.51*2)])spacer(r=2,d=2.5);
 }
-module extruder_carriage(hold=false,c=3.8) {
+module extruder_carriage(hold=false,c=3.8,eX=67,eY=27) {
 	difference() {
 		union() {
-			square([67,27],center=true);
+			square([eX,eY],center=true);
 			if(hold==true)translate([0,25])square([46,38],center=true);
 		}
 		for(i=[-1,1]) {
+			for(j=[1,0])mirror([0,j,0])polygon(points=[[i*eX/2,1*i],[i*eX/2,i*eY/2],[i*(eX/2-12),i*eY/2]]);
 			translate([i*19,0]){ 
 				circle(r=4.3);
 				xy_holes(x=0,y=10,r=1.5);
@@ -233,8 +234,8 @@ module extruder_carriage(hold=false,c=3.8) {
 			translate([i*20,20])circle(r=1.5);
 			for(j=[-c/2-2.5,c/2+2.5])translate([i*5,j])square([8,5],center=true);
 			}
-		xy_holes(x=30,y=10,r=1.5);
 		for(j=[0,9,20,29])for(i=[-7.5,0,7.5])translate([j-29/2,30+i])square(5,center=true);
+
 	}
 }
 module extruder_middle(r=8) {
@@ -245,7 +246,7 @@ module extruder_middle(r=8) {
 		for(i=[-1,1])translate([6.5,i*9.5])circle(r=1.5);
 	}
 }
-module extruder_rod_hold() {
+module extruder_bearing_hold() {
 	difference() {
 		intersection() {
 			translate([10,-20])square([50,40]);
@@ -388,12 +389,12 @@ z_motor_cover(); //1
 
 spacers(); //1
 
-extruder_carriage(); //1
+!extruder_carriage(); //1
 extruder_carriage(hold=true); //2
 extruder_hold(); //1
 extruder_middle(r=7); //2
 extruder_middle(r=6); //2
-extruder_rod_hold(); //4
+extruder_bearing_hold(); //4
 
 platte1(); //1
 platte2(); //1
