@@ -10,6 +10,7 @@ wheelOffset = 60; //Abstand der Spiegelhalterräder
 platformX = 225;
 platformY = 200;
 thight = 0.2; //Platform Bearing thightener
+spacerTolerance = 0.2; //Tolerance of spacers
 
 //Derived Variables
 zHoleA = (profileDist*2+30)/2+platformY/2-15;
@@ -142,12 +143,12 @@ module linear_spacer() {
 }
 module motor_spacer() {
 	for(i=[-1,1])for(j=[-1,1])for(k=[0,10,20])translate([j*12.5,i*k])square(5,center=true);
-	square([20,55],center=true);
+	square([20-spacerTolerance,55],center=true);
 }
 module z_spacer() {
 	for(i=[-1,1])for(j=[-1,1])translate([j*12.5,i*7.5])square(5,center=true);
 	difference() {
-		square(20,center=true);
+		square([20-spacerTolerance,20],center=true);
 		circle(r=4);
 	}
 }
@@ -365,7 +366,7 @@ module ikea_mirror() {
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
 seite(rev=true); //2
-!inside(); //2
+inside(); //2
 inside(z_rod_one=true); //1
 inside(z_rod_two=true); //1
 
@@ -385,7 +386,7 @@ platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
-z_spacer(); //6
+!z_spacer(); //6
 z_motor_spacer();	 //3
 z_motor_spacer(cable=true);	 //1
 z_motor_cover(); //1
