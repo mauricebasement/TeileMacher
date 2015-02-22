@@ -21,16 +21,7 @@ zHoleB = (profileDist*2+30)/2-platformY/2+15;
 module platte1() {
 	difference() {
 		base();
-		conn_screws();
-		profile_screws();
-		translate([130,0])x_holes(x=23.5,r=1.5);
-	}
-}
-module platte2() {
-	difference() {
-		base();
-		conn_screws();
-		profile_cuts();
+		profile_cuts(screws=true);
 		z_holes();
 		translate([130,0]) {
 			motor(face=true,cable=true,screw_d=23.5,screw_e=true);
@@ -38,20 +29,11 @@ module platte2() {
 		}
 	}
 }
-module platte3() {
+module platte2() {
 	difference() {
 		base();
-		conn_screws();
-		profile_cuts();
+		profile_cuts(screws=true);
 		z_holes();
-	}
-}
-module platte4() {
-	difference() {
-		base();
-		conn_screws();
-		profile_screws();
-		z_holes(); //temporary till exactly cut rods are ordered
 	}
 }
 module z_motor_cover() {
@@ -64,8 +46,15 @@ module z_motor_cover() {
 module z_motor_spacer(motorH=39,cable=false) {
 	for(i=[-1,1])for(j=[-1,1])translate([j*15,i*(motorH/2+2.5)])square(5,center=true);
 	difference() {
-		square([35,motorH],center=true);
+		square([35,motorH-5],center=true);
 		if(cable==true)translate([0,motorH/2-2.5])square(5,center=true);
+	}
+}
+module profile_hold() {
+	difference() {
+		square(42.8,center=true);
+		x_holes(x=15,r=1.5);
+		circle(r=2.5);
 	}
 }
 //2. Seiten
@@ -296,21 +285,20 @@ module z_holes() {
 	translate([-profileDist,0])circle(r=4);
 }
 module z_motor_cut() {
-	for(j=[0:3])rotate(a=[0,0,90*j])for(i=[1,-1])for(i=[-1,1])translate([26,i*15])square(5,center=true);
+	for(j=[0,2])rotate(a=[0,0,90*j])for(i=[1,-1])for(i=[-1,1])translate([26,i*15])square(5,center=true);
 }
 module brass_cut() {
 	circle(r=5);
 	for(i=[0:3])rotate(a=[0,0,90*i])translate([8,0])circle(r=1.5);
 }
 module profile_cuts() {
-	for(i=[0:3])rotate(a=[0,0,i*90])translate([profileDist,profileDist])profile();
+	for(i=[0:3])rotate(a=[0,0,i*90])translate([profileDist,profileDist]){
+		profile();
+		if(screws==true)x_holes(x=15,r=1.5);
+	}
 }
 module profile_screws() {
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([profileDist,profileDist])circle(r=2.5);
-}
-module conn_screws() {
-	for(i=[0:3])rotate(a=[0,0,i*90])translate([connScrewDist,connScrewDist])circle(r=1.5);
-	for(i=[0:3])rotate(a=[0,0,i*90])translate([connScrewDist,0])circle(r=1.5);
 }
 //2. Seiten
 module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,rodD=16) {	
@@ -364,13 +352,12 @@ module z_rod(z_rod_one,z_rod_two) {
 }
 //Render
 //1. Platten
-!platte1(); //1
+platte1(); //1
 platte2(); //1
-platte3(); //1
-platte4(); //1
-z_motor_spacer();	 //3
+z_motor_spacer();	 //1
 z_motor_spacer(cable=true);	 //1
 z_motor_cover(); //1
+profile_hold(); //8
 
 //2. Seiten
 seite(z_rod_one=true); //1
