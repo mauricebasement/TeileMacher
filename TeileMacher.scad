@@ -362,7 +362,8 @@ profile_hold(); //8
 //2. Seiten
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
-seite(rev=true); //2
+seite(rev=true); //1
+!seite(); //1
 inside(); //2
 inside(z_rod_one=true); //1
 inside(z_rod_two=true); //1
