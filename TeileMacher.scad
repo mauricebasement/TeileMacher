@@ -34,6 +34,7 @@ module platte2() {
 		base();
 		profile_cuts(screws=true);
 		z_holes();
+		square(profileDist*2-20-20,center=true);
 	}
 }
 module z_motor_cover() {
@@ -264,7 +265,6 @@ module extruder_hold() {
 		translate([0,35])square([46,38],center=true);
 	}
 }
-
 //Helper Modules
 //0. General
 module profile() {
@@ -381,7 +381,6 @@ profile_hold(); //8
 rod_hold(); //1
 z_motor_base(); //1
 
-
 //2. Seiten
 seite(z_rod_one=true); //1
 seite(z_rod_two=true); //1
@@ -403,7 +402,7 @@ linear_spacer(); //8
 //4. Platform
 platform1(); //1
 platform2(); //1
-!platform_leg(); //4
+platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
@@ -416,10 +415,3 @@ extruder_hold(); //1
 extruder_middle(r=7); //2
 extruder_middle(r=6); //2
 extruder_bearing_hold(); //4
-
-
-
-
-
-
-
