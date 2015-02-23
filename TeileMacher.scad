@@ -180,11 +180,11 @@ module platform2(ra=16.5/2) {
 		platform_holes();
 	}
 }
-module platform_leg(h=60,b=40) {
+module platform_leg(h=20,b=40) {
 	difference() {
-		hull(){ 
-			square([b,h-b]);
-			translate([b/2,h-b/2])circle(r=b/2);
+		intersection() {
+			square([100,50]);
+			translate([20,0])circle(r=20);
 		}
 		translate([b/2,0])t_slot();
 	}
@@ -379,7 +379,7 @@ z_motor_cover(); //1
 z_motor_base(); //1
 profile_hold(); //8
 rod_hold(); //1
-z_motor_base(); //
+z_motor_base(); //1
 
 
 //2. Seiten
@@ -403,7 +403,7 @@ linear_spacer(); //8
 //4. Platform
 platform1(); //1
 platform2(); //1
-platform_leg(); //4
+!platform_leg(); //4
 bearing_hold(); //6
 bearing_hold_middle(); //6
 bearing_hold_cover(); //3
