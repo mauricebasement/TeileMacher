@@ -46,7 +46,6 @@ module z_motor_cover() {
 module z_motor_base() {
 	difference() {
 		square(65,center=true);
-		z_motor_cut();
 		x_holes(x=26,r=1.5);
 	}
 }
@@ -380,7 +379,7 @@ z_motor_cover(); //1
 z_motor_base(); //1
 profile_hold(); //8
 rod_hold(); //1
-!z_motor_base(); //
+z_motor_base(); //
 
 
 //2. Seiten
