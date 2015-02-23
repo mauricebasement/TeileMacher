@@ -40,7 +40,14 @@ module z_motor_cover() {
 	difference() {
 		square(65,center=true);
 		z_motor_cut();
-		motor(hole=true,screw_d=23.5,screw_e=true,screw_i=true);
+		motor(hole=true,screw_e=true,screw_i=true);
+	}
+}
+module z_motor_base() {
+	difference() {
+		square(65,center=true);
+		z_motor_cut();
+		x_holes(x=26,r=1.5);
 	}
 }
 module z_motor_spacer(motorH=39-5,cable=false) {
@@ -55,6 +62,12 @@ module profile_hold() {
 		square(42.8,center=true);
 		x_holes(x=15,r=1.5);
 		circle(r=2.5);
+	}
+}
+module rod_hold() {
+	difference() {
+		circle(r=15);
+		tri_holes(x=10,r=1.5);
 	}
 }
 //2. Seiten
@@ -272,6 +285,9 @@ module x_holes(x,r) {
 module squares(x,o=0) {
 	for(i=[0:2:x])translate([o*5+i*5-tol,0])square([5+2*tol,5]);
 }
+module tri_holes(x,r,o=0) {
+	for(i=[0:2])rotate([0,0,120*i+o])translate([x,0])circle(r=r);
+}
 module ikea_mirror() {
 	y=20.1;
 	color("red")translate([-100,-100])hull()for (x=[[y,y],[200-y,y],[200-y,200-y],[y,200-y]])translate(x)circle(r=20);
@@ -281,8 +297,12 @@ module base() {
 	square(size,center=true);
 }
 module z_holes() {
-	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])circle(r=4);
-	translate([-profileDist,0])circle(r=4);
+	for(i=[platformY/2-15,-platformY/2+15])translate([profileDist,i])z_hole();
+	translate([-profileDist,0])z_hole(o=180);
+}
+module z_hole(o=0) {
+	tri_holes(x=10,r=1.5,o=o);
+	circle(r=4);
 }
 module z_motor_cut() {
 	for(j=[0,2])rotate(a=[0,0,90*j])for(i=[1,-1])for(i=[-1,1])translate([26,i*15])square(5,center=true);
@@ -304,11 +324,11 @@ module profile_screws() {
 module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,rodD=16) {	
 	if (face==true) square(42.8,center=true);
 	if (cable==true) translate([21+5,0])square(12,center=true);
-	if (screw_e==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([26,26])circle(r=1.5);
-	if (screw_i==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([15.5,15.5])circle(r=1.5);
+	if (screw_e==true) x_holes(x=26,r=1.5);
+	if (screw_i==true) x_holes(x=15.5,r=1.5);
 	if (hole==true) circle(r=11);
 	if (rod==true) circle(r=rodD/2); //Maybe needs a little tolerance if bearing does not fit tight enough
-	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
+	if (screws==true)	x_holes(x=screw_d,r=1.5);
 	if (rod_hole==true) translate([17.5,0])circle(r=4);
 }
 module z_spacer_cut() {
@@ -357,7 +377,11 @@ platte2(); //1
 z_motor_spacer();	 //1
 z_motor_spacer(cable=true);	 //1
 z_motor_cover(); //1
+z_motor_base(); //1
 profile_hold(); //8
+rod_hold(); //1
+!z_motor_base(); //
+
 
 //2. Seiten
 seite(z_rod_one=true); //1
