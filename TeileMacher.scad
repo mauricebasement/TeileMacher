@@ -378,7 +378,7 @@ z_motor_spacer(cable=true);	 //1
 z_motor_cover(); //1
 z_motor_base(); //1
 profile_hold(); //8
-rod_hold(); //1
+rod_hold(); //6
 z_motor_base(); //1
 
 //2. Seiten
